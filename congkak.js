@@ -17,3 +17,27 @@ function Player(name) {
     return totalMarble;
   }
 }
+
+function game() {
+  console.log("Player 1 will start first.");
+
+  //TODO: get players names from browser window
+
+  // create Player Object
+  var p1 = new Player('kun');
+  var p2 = new Player('chan');
+
+  // get total no of marbles in houses
+
+  // continue loop if there are still marbles to be play
+
+    // p1's turns
+    // round(p1, p2)
+
+    // p2's turns
+    // round(p2, p1)
+
+  // game ends
+  // count players' scores
+  // and announce the winner!
+}

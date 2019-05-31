@@ -1,4 +1,4 @@
-player1 = new Player('yuya');
+var tester1 = new Player('yuya');
 
 //test functions in Player Object
 function testPlayerf(player) {
@@ -7,6 +7,10 @@ function testPlayerf(player) {
 
   console.log("Testing totalMarbleInHouses ...");
   console.log((player.totalMarbleInHouses() === 49) ? "Passed" : "Failed: totalMarbleInHouses");
+
+  console.log("Test Completed!");
 }
 
-testPlayerf(player1);
+testPlayerf(tester1);
+
+game();

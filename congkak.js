@@ -33,10 +33,10 @@ function game(p1, p2) {
   // continue loop if there are still marbles to be play
   while (totalMarble > 0) {
     // p1's turns
-    // round(p1, p2)
+    // round(p1, p2, p1)
 
     // p2's turns
-    // round(p2, p1)
+    // round(p2, p1, p2)
 
     // test loop
     totalMarble -= 10;
@@ -54,5 +54,18 @@ function game(p1, p2) {
   } else {
     console.log(`It's a draw!`);
   }
+}
 
+// round(p1, p2, p1, default=0)
+// round(p1, p2, p1, stopIndex), use when marble stopped on non empty houses (own house)
+// round(p1, p2, p2, stopIndex), use when marble stopped on non empty houses (opponent's house)
+function round(currentPlayer, opponentPlayer, startSide, startIndex=None) {
+  // if startIndex == None, choose one house to start
+  // else, start
+  // putting 1 marble into each house and storage (own) until finishes
+  // check where the distribution of marble stops
+  // if the last house has more than 1 marble (last marble distrbuted)
+    // if own house, move the last marble and all marbles in opposite house into own storage
+    // else (in opponent's house), stop and change turns
+  // else pick up all marbles in that house and distributed again
 }

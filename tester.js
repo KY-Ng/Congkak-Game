@@ -1,5 +1,6 @@
 var tester1 = new Player('test1');
 var tester2 = new Player('test2');
+var players = [tester1, tester2];
 
 //test functions in Player Object
 function testPlayerf(player) {
@@ -14,4 +15,6 @@ function testPlayerf(player) {
 
 testPlayerf(tester1);
 
-game(tester1, tester2);
+game(players[0], players[1]);
+
+showNumInHouses(players[0]);

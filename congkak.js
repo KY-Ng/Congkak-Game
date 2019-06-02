@@ -69,3 +69,17 @@ function round(currentPlayer, opponentPlayer, startSide, startIndex=None) {
     // else (in opponent's house), stop and change turns
   // else pick up all marbles in that house and distributed again
 }
+
+
+// update number shown in players' houses based on player.houses
+// might need a function that specify which house to update (the number)
+//   as looping over everything every time number in a house is updated
+//   is kind of waste
+function showNumInHouses(player) {
+  var classname = (players.indexOf(player) === 0) ? ".p1-houses" : ".p2-houses";
+  const houses = document.querySelectorAll(classname);
+  for (var i = 0; i < houses.length; i++) {
+    houses[i].innerText = player.houses[i];
+    // console.log(houses[i].innerText);
+  }
+}

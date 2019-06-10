@@ -62,7 +62,25 @@ function game(p1, p2) {
 function round(currentPlayer, opponentPlayer, startSide, startIndex=None) {
   // if startIndex == None, choose one house to start
   // else, start
+  // pick up marbles in startSide.houses[startindex]
+  var marblesInHand = startSide.houses[startIndex];
+  var currentIndex = startIndex;
+  updateHouse(startSide, startIndex, 0);
   // putting 1 marble into each house and storage (own) until finishes
+  while (marblesInHand > 0) {
+    console.log(marblesInHand);
+    if (startIndex+1 === 7) {
+      startIndex = 0;
+      updateScore(currentPlayer, currentPlayer.score+1);
+      console.log("startIndex:", startIndex);
+    } else {
+      startIndex += 1;
+      console.log("startIndex:", startIndex);
+      updateHouse(startSide, startIndex, startSide.houses[startIndex]+1);
+      console.log(currentPlayer.houses);
+    }
+    marblesInHand -= 1;
+  }
   // check where the distribution of marble stops
   // if the last house has more than 1 marble (last marble distrbuted)
     // if own house, move the last marble and all marbles in opposite house into own storage
@@ -80,10 +98,43 @@ function showNumInHouses(player) {
   const houses = document.querySelectorAll(classname);
   for (var i = 0; i < houses.length; i++) {
     houses[i].innerText = player.houses[i];
-    // console.log(houses[i].innerText);
   }
 }
 
-function updateCircleofHouse(player) {
-  console.log('hi');
+function showNumOfMarbles(player) {
+  var classname = (players.indexOf(player) === 0) ? [".p1-houses", ".p1-storage"] : [".p2-houses", ".p2-storage"];
+  const houses = document.querySelectorAll(classname[0]);
+  const storage = document.querySelector(classname[1]);
+  for (var i = 0; i < houses.length; i++) {
+    houses[i].innerText = player.houses[i];
+  }
+  storage.innerText = player.score;
+}
+
+function updatePlayground() {
+  const p1_houses = document.querySelectorAll(".p1-houses");
+  const p2_houses = document.querySelectorAll(".p2-houses");
+  const p1_storage = document.querySelector(".p1-storage");
+  const p2_storage = document.querySelector(".p2-storage");
+  for (var i = 0; i < p1_houses.length; i++) {
+    p1_houses[i].innerText = players[0].houses[i];
+    p2_houses[i].innerText = players[1].houses[i];
+  }
+  p1_storage.innerText = players[0].score;
+  p2_storage.innerText = players[1].score;
+}
+
+function updateHouse(player, index, value) {
+  //var classname = (players.indexOf(player) === 0) ? ".p1-houses" : ".p2-houses";
+  //const houses = document.querySelectorAll(classname);
+  player.houses[index] = value;
+  updatePlayground();
+}
+
+function updateScore(player, value) {
+  //var classname = (players.indexOf(player) === 0) ? ".p1-storage" : ".p2-storage";
+  //const storage = document.querySelector(classname);
+  //storage.innerText = player.score;
+  player.score = value;
+  updatePlayground();
 }

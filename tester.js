@@ -17,4 +17,16 @@ testPlayerf(tester1);
 
 game(players[0], players[1]);
 
-showNumInHouses(players[0]);
+updatePlayground();
+
+//showNumOfMarbles(players[0]);
+//showNumOfMarbles(players[1]);
+
+//for (var i = 0; i < 7; i++) {
+//    updateHouse(players[1], i)
+//}
+
+//updateStorage(players[0])
+//updateStorage(players[1])
+
+round(players[0], players[1], players[0], 0);

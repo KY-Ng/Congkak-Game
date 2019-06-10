@@ -8,4 +8,7 @@ console.log(sum_array(houses));
 
 game();
 
-distribute(1, 0, 20);
+//distribute(1, 0);
+
+//getClickedElement();
+getClickedHouse();

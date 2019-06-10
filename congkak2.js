@@ -43,9 +43,12 @@ function game() {
   updateGameMessage(msg);
 }
 
-function distribute(currentPlayer, currentIndex, marblesInHand) {
+function distribute(currentPlayer, currentIndex) {
+  var marblesInHand = houses[currentIndex];
+  houses[currentIndex] = 0;
+  currentIndex++;
   while (marblesInHand > 0) {
-    console.log(marblesInHand);
+    //console.log(marblesInHand);
     houses[currentIndex] += 1;
     switch (currentPlayer) {
       case 1:
@@ -66,16 +69,28 @@ function distribute(currentPlayer, currentIndex, marblesInHand) {
       default:
         console.log("Nope");
     }
-    console.log(houses, playersScore);
+    //console.log(houses, playersScore);
     updatePlayground();
     currentIndex++;
     marblesInHand--;
   }
+  var endIndex = currentIndex;
+  console.log(endIndex);
 }
 
 function updateGameMessage(msg) {
     const gameMsg = document.querySelector('.game-msg');
     gameMsg.innerText = msg;
+}
+
+function getClickedHouse() {
+  document.addEventListener('click', event => {
+    const clickedElement = event.target;
+    if ((clickedElement.classList.contains("p1-houses")) || (clickedElement.classList.contains("p2-houses"))) {
+      console.log(clickedElement.id);
+      return clickedElement.id;
+    }
+  })
 }
 
 // Helper Function
@@ -86,3 +101,9 @@ function sum_array(A) {
   }
   return sum;
 }
+
+function getClickedElement() {
+  document.addEventListener('click', event => {
+    //console.log(event.target);
+    return event.target;
+})}

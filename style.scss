@@ -1,0 +1,42 @@
+// try square instead of circle
+
+%house {
+  //content: '\25CF'; unicode for circle
+  border: 0.15rem solid;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0;
+  margin: 0.25rem;
+}
+
+.p1-houses {
+  @extend %house;
+  border-color: red;
+  font-size: 1rem;
+}
+
+.p2-houses {
+  @extend %house;
+  border-color: blue;
+  font-size: 1rem;
+}
+
+%storage {
+  border: 0.15rem solid;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0;
+  margin: 0.25rem;
+}
+
+.p1-storage {
+  @extend %storage;
+  border-color: red;
+  font-size: 1.25rem;
+}
+
+.p2-storage {
+  @extend %storage;
+  border-color: blue;
+  font-size: 1.25rem;
+}

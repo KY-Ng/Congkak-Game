@@ -1,0 +1,37 @@
+.p2-houses, .p1-houses {
+  border: 0.15rem solid;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0;
+  margin: 0.25rem;
+}
+
+.p1-houses {
+  border-color: red;
+  font-size: 1rem;
+}
+
+.p2-houses {
+  border-color: blue;
+  font-size: 1rem;
+}
+
+.p2-storage, .p1-storage {
+  border: 0.15rem solid;
+  border-radius: 1rem;
+  text-align: center;
+  padding: 0;
+  margin: 0.25rem;
+}
+
+.p1-storage {
+  border-color: red;
+  font-size: 1.25rem;
+}
+
+.p2-storage {
+  border-color: blue;
+  font-size: 1.25rem;
+}
+
+/*# sourceMappingURL=style.css.map */

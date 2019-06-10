@@ -83,3 +83,7 @@ function showNumInHouses(player) {
     // console.log(houses[i].innerText);
   }
 }
+
+function updateCircleofHouse(player) {
+  console.log('hi');
+}

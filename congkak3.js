@@ -1,7 +1,9 @@
 // index 0 ~ 6: p1's houses
 // index 7 ~ 13: p2's houses
 var houses = initHouses();
+var playersScore = [0, 0];
 var currentPlayer = 1; // Player 1 goes first
+// var currentPlayer = 2; // test Player 2
 
 function initHouses() {
   var houses = [];
@@ -10,8 +12,6 @@ function initHouses() {
   }
   return houses;
 }
-
-var playersScore = [0, 0];
 
 function updatePlayground() {
   const p1_houses = document.querySelectorAll(".p1-houses");
@@ -67,7 +67,6 @@ function selectHouse(enable, currentPlayer) {
   var target_houses = (currentPlayer === 1) ? ".p1-houses" : ".p2-houses";
   const enable_houses = document.querySelectorAll(target_houses);
   //const p2_houses = document.querySelectorAll(".p2-houses");
-  //var set_value = (enable) ? getClickedHouse : "null";
   var set_value = (enable) ? round : "null";
   for (var i = 0; i < enable_houses.length; i++) {
     enable_houses[i].onclick = set_value;
@@ -84,8 +83,41 @@ function round() {
     console.log(startIndex);
   }
   selectHouse(false, currentPlayer);
-  console.log(currentPlayer);
-  //var endStatus = distribute(currentPlayer, startIndex);
+  var endStatus = distribute(currentPlayer, startIndex);
+  console.log(endStatus);
+}
+
+function distribute(currentPlayer, currentIndex) {
+  //console.log(currentPlayer, currentIndex);
+  var marblesInHand = houses[currentIndex];
+  //console.log(marblesInHand);
+  houses[currentIndex] = 0;
+  for (var i=0; i<marblesInHand; i++) {
+    console.log(i);
+    currentIndex = (currentIndex+1)%14;
+    switch (currentPlayer) {
+      case 1:
+        if (currentIndex === 7) { // add to storage even when startIndex = 6 (currentIndex is updated at the begining of for loop)
+          playersScore[0]++;
+          if (i+1 < marblesInHand) {houses[currentIndex]++;} // add to house next to storage if this is not the last iteration
+          i++; // reduce 1 iteration as 1 marble is put in storage
+          continue;
+        }
+        break;
+      case 2:
+        if (currentIndex === 0) { // add to storage even when startIndex = 13 (currentIndex is updated at the begining of for loop)
+          playersScore[1]++;
+          if (i+1 < marblesInHand) {houses[currentIndex]++;} // add to house next to storage if this is not the last iteration
+          i++; // reduce 1 iteration as 1 marble is put in storage
+          continue;
+        }
+        break;
+      //default:
+    }
+    houses[currentIndex]++;
+  }
+  updatePlayground();
+  return [currentIndex, houses[currentIndex]];
 }
 
 // Helper Function

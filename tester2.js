@@ -12,3 +12,8 @@ console.log(sum_array(houses));
 
 //getClickedElement();
 //getClickedHouse();
+
+// test round()
+
+//var currentPlayer = 1;
+//selectHouse(true);

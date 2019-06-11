@@ -1,6 +1,7 @@
 // index 0 ~ 6: p1's houses
 // index 7 ~ 13: p2's houses
 var houses = initHouses();
+var currentPlayer = 1; // Player 1 goes first
 
 function initHouses() {
   var houses = [];
@@ -30,16 +31,47 @@ function updateGameMessage(msg) {
     gameMsg.innerText = msg;
 }
 
+
+function start() {
+  const startbutton = document.querySelector(".start-btn");
+  const gameMsg = document.querySelector(".game-msg");
+  startbutton.classList.toggle("hide") // hide start button
+  updateGameMessage("\n"); // hide game messages
+  //var currentPlayer = 1; // Player 1 goes first
+  game(currentPlayer);
+    //updateGameMessage(`Player ${currentPlayer}'s turn.\nPick a house to start.`);
+    //selectHouse(true);
+}
+
+function game(currentPlayer) {
+  if (sum_array(houses) === 0) {
+    // game end
+    var msg = `Scores:\nPlayer 1: ${playersScore[0]}\tPlayer 2: ${playersScore[1]}`;
+    if (playersScore[0] > playersScore[1]) {
+      msg += "\nPlayer 1 wins!";
+    } else if (playersScore[0] < playersScore[1]) {
+      msg += "\nPlayer 2 wins!";
+    } else {
+      msg += "\nIt's a draw!";
+    }
+    updateGameMessage(msg);
+  } else {
+    updateGameMessage(`Player ${currentPlayer}'s turn.\nPick a house to start.`);
+    selectHouse(true, currentPlayer);
+  }
+}
+
 // enabling and disabling the selection of houses
 // by changing the value of elements' onclick attribute
-function selectHouse(enable) {
-  const p1_houses = document.querySelectorAll(".p1-houses");
-  const p2_houses = document.querySelectorAll(".p2-houses");
+function selectHouse(enable, currentPlayer) {
+  var target_houses = (currentPlayer === 1) ? ".p1-houses" : ".p2-houses";
+  const enable_houses = document.querySelectorAll(target_houses);
+  //const p2_houses = document.querySelectorAll(".p2-houses");
   //var set_value = (enable) ? getClickedHouse : "null";
   var set_value = (enable) ? round : "null";
-  for (var i = 0; i < p1_houses.length; i++) {
-    p1_houses[i].onclick = set_value;
-    p2_houses[i].onclick = set_value;
+  for (var i = 0; i < enable_houses.length; i++) {
+    enable_houses[i].onclick = set_value;
+    //p2_houses[i].onclick = set_value;
   }
 }
 
@@ -51,17 +83,9 @@ function round() {
     var startIndex = parseInt(clickedElement.id);
     console.log(startIndex);
   }
-  selectHouse(false);
-}
-
-function start() {
-  const startbutton = document.querySelector(".start-btn");
-  const gameMsg = document.querySelector(".game-msg");
-  startbutton.classList.toggle("hide") // hide start button
-  updateGameMessage("\n"); // hide game messages
-  var currentPlayer = 1; // Player 1 goes first
-  updateGameMessage(`Player ${currentPlayer}'s turn.\nPick a house to start.`);
-  selectHouse(true);
+  selectHouse(false, currentPlayer);
+  console.log(currentPlayer);
+  //var endStatus = distribute(currentPlayer, startIndex);
 }
 
 // Helper Function

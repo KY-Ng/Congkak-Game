@@ -6,9 +6,9 @@ updatePlayground();
 
 console.log(sum_array(houses));
 
-game();
+//game();
 
 //distribute(1, 0);
 
 //getClickedElement();
-getClickedHouse();
+//getClickedHouse();

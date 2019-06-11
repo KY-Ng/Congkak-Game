@@ -25,11 +25,38 @@ function updatePlayground() {
   p2_storage.innerText = playersScore[1];
 }
 
+function selectHouse(enable) {
+  const p1_houses = document.querySelectorAll(".p1-houses");
+  const p2_houses = document.querySelectorAll(".p2-houses");
+  var set_value = (enable) ? getClickedHouse : "null";
+  for (var i = 0; i < p1_houses.length; i++) {
+    p1_houses[i].onclick = set_value;
+    p2_houses[i].onclick = set_value;
+  }
+}
+
 function game() {
   var totalMarble = sum_array(houses);
-
+  var currentPlayer = 1; // Player 1 goes first
+  var startIndex;
   // while loop
-
+  while (totalMarble > 0) {
+    console.log(totalMarble);
+    updateGameMessage(`Player ${currentPlayer}'s Turn.\nPick a house to start.`)
+    // pick 1 house to start
+    startIndex = getClickedHouse(); // add condition for players, p1 or p2
+    // distribute marbles
+    var endStatus = distribute(currentPlayer, startIndex);
+    // count how many marbles left in houses
+    totalMarble = sum_array(houses);
+    // check to end turn conditions
+    if (endTurn(currentPlayer, endStatus)) {
+      // switch player
+      (function() {
+        currentPlayer = (currentPlayer === 1) ? 2 : 1;
+      }())
+    }
+  }
   // game ends
   // announcement of results
   var msg = `Scores:\nPlayer 1: ${playersScore[0]}\tPlayer 2: ${playersScore[1]}`;
@@ -76,6 +103,32 @@ function distribute(currentPlayer, currentIndex) {
   }
   var endIndex = currentIndex;
   console.log(endIndex);
+  return [endIndex, houses[endIndex]];
+}
+
+function endTurn(currentPlayer ,endStatus) {
+  switch (currentPlayer) {
+    case 1:
+        if (endStatus[0] === 7) {
+          return false;
+        } else if (endStatus[0] <= 6) {
+          return true;
+        } else {
+          return true;
+        }
+      break;
+    case 2:
+      if (endStatus[0] === 0) {
+        return false
+      } else if (endStatus[0] >= 7) {
+        return true;
+      } else {
+        return true;
+      }
+      break;
+    default:
+      console.log("Nope");
+  }
 }
 
 function updateGameMessage(msg) {
@@ -84,13 +137,24 @@ function updateGameMessage(msg) {
 }
 
 function getClickedHouse() {
+  /*
+  var houseID = (function() {
   document.addEventListener('click', event => {
-    const clickedElement = event.target;
-    if ((clickedElement.classList.contains("p1-houses")) || (clickedElement.classList.contains("p2-houses"))) {
-      console.log(clickedElement.id);
-      return clickedElement.id;
-    }
-  })
+  const clickedElement = event.target;
+  if ((clickedElement.classList.contains("p1-houses")) || (clickedElement.classList.contains("p2-houses"))) {
+  //console.log(clickedElement.id);
+  //houseID = clickedElement.id;
+  return clickedElement.id;
+}
+}, {once: true});
+}());
+console.log(event.target.id);
+//return houseID;
+  */
+  const clickedElement = event.target;
+  if ((clickedElement.classList.contains("p1-houses")) || (clickedElement.classList.contains("p2-houses"))) {
+    console.log(clickedElement.id);
+  }
 }
 
 // Helper Function

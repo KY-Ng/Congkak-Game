@@ -85,6 +85,8 @@ function round() {
   selectHouse(false, currentPlayer);
   var endStatus = distribute(currentPlayer, startIndex);
   console.log(endStatus);
+  var switchPlayer = endTurn(endStatus);
+  console.log(switchPlayer);
 }
 
 function distribute(currentPlayer, currentIndex) {
@@ -121,6 +123,12 @@ function distribute(currentPlayer, currentIndex) {
   }
   updatePlayground();
   return [stop_at_storage, currentIndex];
+}
+
+// return true when currentPlayer's turn ends
+// condition: when the last marble doesn not stop at in storage
+function endTurn(endStatus) {
+  return (endStatus[0]) ? false : true;
 }
 
 // Helper Function

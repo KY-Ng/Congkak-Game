@@ -5,6 +5,9 @@ var playersScore = [0, 0];
 var currentPlayer = 1; // Player 1 goes first
 //var currentPlayer = 2; // test Player 2
 
+// TODO: change "currentPlayer" to "player" in all function to avoid confusion
+// unless an expression is used to change the value of currentPlayer (global var)
+
 function initHouses() {
   var houses = [];
   for (var i = 0; i < 14; i++) {
@@ -37,13 +40,10 @@ function start() {
   const gameMsg = document.querySelector(".game-msg");
   startbutton.classList.toggle("hide") // hide start button
   updateGameMessage("\n"); // hide game messages
-  //var currentPlayer = 1; // Player 1 goes first
   game(currentPlayer);
-    //updateGameMessage(`Player ${currentPlayer}'s turn.\nPick a house to start.`);
-    //selectHouse(true);
 }
 
-function game(currentPlayer) {
+function game(player) {
   if (sum_array(houses) === 0) {
     // game end
     var msg = `Scores:\nPlayer 1: ${playersScore[0]}\tPlayer 2: ${playersScore[1]}`;
@@ -55,25 +55,10 @@ function game(currentPlayer) {
       msg += "\nIt's a draw!";
     }
     updateGameMessage(msg);
-    selectHouse(false, currentPlayer);
+    selectHouse(false, player);
   } else {
-    updateGameMessage(`Player ${currentPlayer}'s turn.\nPick a non-empty house to start.`);
-    selectHouse(true, currentPlayer);
-  }
-}
-
-// enabling and disabling the selection of houses
-// by changing the value of elements' onclick attribute
-function selectHouse(enable, currentPlayer) {
-  var target_houses = (currentPlayer === 1) ? ".p1-houses" : ".p2-houses";
-  const enable_houses = document.querySelectorAll(target_houses);
-  //const p2_houses = document.querySelectorAll(".p2-houses");
-  if (enable) {
-    for (var i = 0; i < enable_houses.length; i++) {
-      enable_houses[i].onclick = (enable_houses[i].innerText !== "0") ? round : "null";
-    }
-  } else {
-    for (var i = 0; i < enable_houses.length; i++) {enable_houses[i].onclick = "null";}
+    updateGameMessage(`Player ${player}'s turn.\nPick a non-empty house to start.`);
+    selectHouse(true, player);
   }
 }
 
@@ -86,18 +71,60 @@ function round() {
     //console.log(startIndex);
   }
   selectHouse(false, currentPlayer);
+  currentPlayer = distributionLoop(currentPlayer, startIndex);
+  /*
   var endStatus = distribute(currentPlayer, startIndex);
   //console.log(endStatus);
   if (endTurn(endStatus, currentPlayer)) {
-    const endIndex = endStatus[1];
-    // TODO: check if stop at empty houses
-    if (houses[endIndex] === 1) {absorbMarble(endIndex, currentPlayer);}
-    // switch player
-    currentPlayer = (currentPlayer === 1) ? 2 : 1;
+  const endIndex = endStatus[1];
+  // take away all marbles in opposite house if last marble stop at one of own houses that is empty
+  if (houses[endIndex] === 1) {absorbMarble(endIndex, currentPlayer);}
+  // switch player
+  currentPlayer = (currentPlayer === 1) ? 2 : 1;
   }
+  */
   game(currentPlayer);
 }
 
+// enabling and disabling the selection of houses
+// by changing the value of elements' onclick attribute
+function selectHouse(enable, player) {
+  var target_houses = (player === 1) ? ".p1-houses" : ".p2-houses";
+  const enable_houses = document.querySelectorAll(target_houses);
+  //const p2_houses = document.querySelectorAll(".p2-houses");
+  if (enable) {
+    for (var i = 0; i < enable_houses.length; i++) {
+      enable_houses[i].onclick = (enable_houses[i].innerText !== "0") ? round : "null";
+    }
+  } else {
+    for (var i = 0; i < enable_houses.length; i++) {enable_houses[i].onclick = "null";}
+  }
+}
+
+// if currentPlayer's turn does not end after 1 distribution,
+// start distribution again with marbles in current house regardless of who owns that house
+function distributionLoop(player, startIndex) {
+  console.log(houses, startIndex);
+  var endStatus = distribute(player, startIndex)
+  //console.log(endStatus);
+  const endIndex = endStatus[1];
+  console.log(endTurn(endStatus, player));
+  if (endTurn(endStatus, player)) {
+    // take away all marbles in opposite house if last marble stop at one of own houses that is empty
+    if (houses[endIndex] === 1) {absorbMarble(endIndex, player);}
+    console.log(`Player ${player}'s turn ends!'`);
+    // switch player
+    return (player === 1) ? 2 : 1;
+  } else if (!endStatus[0]) {
+    console.log("repeat:", player);
+    return distributionLoop(player, endIndex);
+  } else {
+    return player;
+  }
+}
+
+// distribute every marbles in current house one by one into consequence houses
+// add 1 marble into own storage if pass through
 function distribute(currentPlayer, currentIndex) {
   //console.log(currentPlayer, currentIndex);
   var marblesInHand = houses[currentIndex];
@@ -145,7 +172,7 @@ function endTurn(endStatus, currentPlayer) {
       playerhouseEmpty = (sum_array(houses.slice(7, 13)) === 0) ? true : false;
       break;
   }
-  return (!endStatus[0] || playerhouseEmpty);
+  return (playerhouseEmpty || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
 }
 
 function absorbMarble(endIndex, currentPlayer) {

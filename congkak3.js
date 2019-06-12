@@ -3,7 +3,7 @@
 var houses = initHouses();
 var playersScore = [0, 0];
 var currentPlayer = 1; // Player 1 goes first
-// var currentPlayer = 2; // test Player 2
+//var currentPlayer = 2; // test Player 2
 
 function initHouses() {
   var houses = [];
@@ -90,14 +90,16 @@ function round() {
 function distribute(currentPlayer, currentIndex) {
   //console.log(currentPlayer, currentIndex);
   var marblesInHand = houses[currentIndex];
+  var stop_at_storage = false;
   //console.log(marblesInHand);
   houses[currentIndex] = 0;
   for (var i=0; i<marblesInHand; i++) {
-    console.log(i);
+    //console.log(i);
     currentIndex = (currentIndex+1)%14;
     switch (currentPlayer) {
       case 1:
         if (currentIndex === 7) { // add to storage even when startIndex = 6 (currentIndex is updated at the begining of for loop)
+          if (i+1 === marblesInHand) {stop_at_storage = true;} // the last marble is in storage
           playersScore[0]++;
           if (i+1 < marblesInHand) {houses[currentIndex]++;} // add to house next to storage if this is not the last iteration
           i++; // reduce 1 iteration as 1 marble is put in storage
@@ -106,6 +108,7 @@ function distribute(currentPlayer, currentIndex) {
         break;
       case 2:
         if (currentIndex === 0) { // add to storage even when startIndex = 13 (currentIndex is updated at the begining of for loop)
+          if (i+1 === marblesInHand) {stop_at_storage = true;}
           playersScore[1]++;
           if (i+1 < marblesInHand) {houses[currentIndex]++;} // add to house next to storage if this is not the last iteration
           i++; // reduce 1 iteration as 1 marble is put in storage
@@ -117,7 +120,7 @@ function distribute(currentPlayer, currentIndex) {
     houses[currentIndex]++;
   }
   updatePlayground();
-  return [currentIndex, houses[currentIndex]];
+  return [stop_at_storage, currentIndex];
 }
 
 // Helper Function

@@ -75,18 +75,6 @@ function selectHouse(enable, currentPlayer) {
   } else {
     for (var i = 0; i < enable_houses.length; i++) {enable_houses[i].onclick = "null";}
   }
-  /*
-  var set_value = (enable) ? round : "null";
-  for (var i = 0; i < enable_houses.length; i++) {
-    // unable to click houses with 0 marbles
-    if (enable) {
-      console.log(enable_houses[i].innerText);
-      enable_houses[i].onclick = (enable_houses[i].innerText === 0) ? "null" : set_value;
-      console.log(enable_houses[i].onclick);
-    } else {
-      enable_houses[i].onclick = set_value;
-    }
-  }*/
 }
 
 // called when one of the houses is clicked
@@ -101,7 +89,9 @@ function round() {
   var endStatus = distribute(currentPlayer, startIndex);
   //console.log(endStatus);
   if (endTurn(endStatus, currentPlayer)) {
+    const endIndex = endStatus[1];
     // TODO: check if stop at empty houses
+    if (houses[endIndex] === 1) {absorbMarble(endIndex, currentPlayer);}
     // switch player
     currentPlayer = (currentPlayer === 1) ? 2 : 1;
   }
@@ -136,7 +126,6 @@ function distribute(currentPlayer, currentIndex) {
           continue;
         }
         break;
-      //default:
     }
     houses[currentIndex]++;
   }
@@ -157,6 +146,29 @@ function endTurn(endStatus, currentPlayer) {
       break;
   }
   return (!endStatus[0] || playerhouseEmpty);
+}
+
+function absorbMarble(endIndex, currentPlayer) {
+  switch (currentPlayer) {
+    case 1:
+    if (endIndex <= 6) {
+      // absorb marbles in opposite house
+      playersScore[0] += houses[endIndex] + houses[13-endIndex];
+      houses[endIndex] = 0;
+      houses[13-endIndex] = 0;
+      updatePlayground();
+    }
+    break;
+    case 2:
+    if (endIndex >= 7) {
+      // absorb marbles in opposite house
+      playersScore[1] += houses[endIndex] + houses[13-endIndex];
+      houses[endIndex] = 0;
+      houses[13-endIndex] = 0;
+      updatePlayground();
+    }
+    break;
+  }
 }
 
 // Helper Function

@@ -125,7 +125,7 @@ function distributionLoop(player, startIndex) {
 
 // distribute every marbles in current house one by one into consequence houses
 // add 1 marble into own storage if pass through
-function distribute(currentPlayer, currentIndex) {
+function distribute(player, currentIndex) {
   //console.log(currentPlayer, currentIndex);
   var marblesInHand = houses[currentIndex];
   var stop_at_storage = false;
@@ -134,7 +134,7 @@ function distribute(currentPlayer, currentIndex) {
   for (var i=0; i<marblesInHand; i++) {
     //console.log(i);
     currentIndex = (currentIndex+1)%14;
-    switch (currentPlayer) {
+    switch (player) {
       case 1:
         if (currentIndex === 7) { // add to storage even when startIndex = 6 (currentIndex is updated at the begining of for loop)
           if (i+1 === marblesInHand) {stop_at_storage = true;} // the last marble is in storage
@@ -162,9 +162,9 @@ function distribute(currentPlayer, currentIndex) {
 
 // return true when currentPlayer's turn ends
 // condition: when the last marble doesn not stop at in storage
-function endTurn(endStatus, currentPlayer) {
+function endTurn(endStatus, player) {
   var playerhouseEmpty = false;
-  switch (currentPlayer) {
+  switch (player) {
     case 1:
       playerhouseEmpty = (sum_array(houses.slice(0, 6)) === 0) ? true : false;
       break;
@@ -175,8 +175,8 @@ function endTurn(endStatus, currentPlayer) {
   return (playerhouseEmpty || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
 }
 
-function absorbMarble(endIndex, currentPlayer) {
-  switch (currentPlayer) {
+function absorbMarble(endIndex, player) {
+  switch (player) {
     case 1:
     if (endIndex <= 6) {
       // absorb marbles in opposite house

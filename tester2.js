@@ -17,3 +17,15 @@ console.log(sum_array(houses));
 
 //var currentPlayer = 1;
 //selectHouse(true);
+
+function printTrue() {
+  return true;
+}
+
+function testTimeOut(x) {
+    setTimeout(()=>{
+      var a = printTrue();
+      console.log(a);
+    }, x)
+    console.log("slow!");
+}

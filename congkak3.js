@@ -111,7 +111,7 @@ function distributionLoop(player, startIndex) {
   console.log(endTurn(endStatus, player));
   if (endTurn(endStatus, player)) {
     // take away all marbles in opposite house if last marble stop at one of own houses that is empty
-    if (houses[endIndex] === 1) {absorbMarble(endIndex, player);}
+    if ((houses[endIndex] === 1) && (houses[13-endIndex] !== 0)) {absorbMarble(endIndex, player);}
     console.log(`Player ${player}'s turn ends!'`);
     // switch player
     return (player === 1) ? 2 : 1;

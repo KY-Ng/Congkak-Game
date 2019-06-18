@@ -4,6 +4,7 @@ var houses = initHouses();
 var playersScore = [0, 0];
 var currentPlayer = 1; // Player 1 goes first
 //var currentPlayer = 2; // test Player 2
+updatePlayground();
 
 function initHouses() {
   var houses = [];

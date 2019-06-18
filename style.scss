@@ -3,15 +3,17 @@ $player1-color: #FF0000;
 $player2-color: #0000FF;
 
 body {
-  background-color: #000000;
+  background-color: #171717;
+  font-family: 'Mali', cursive;
   text-align: center;
   color: #FFFFFF;
 }
 
-.playgroud {
-    position: relative;
-    top: 45vh;
-    transform: translateY(-50%);
+h1 {
+  color: #000000;
+  padding: 10rem 0 1rem 0;
+  background-color: #FFFFFF;
+  font-size: 3.5rem;
 }
 
 %house {

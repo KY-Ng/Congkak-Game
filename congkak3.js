@@ -5,9 +5,6 @@ var playersScore = [0, 0];
 var currentPlayer = 1; // Player 1 goes first
 //var currentPlayer = 2; // test Player 2
 
-// TODO: change "currentPlayer" to "player" in all function to avoid confusion
-// unless an expression is used to change the value of currentPlayer (global var)
-
 function initHouses() {
   var houses = [];
   for (var i = 0; i < 14; i++) {
@@ -33,7 +30,6 @@ function updateGameMessage(msg) {
     const gameMsg = document.querySelector('.game-msg');
     gameMsg.innerText = msg;
 }
-
 
 function start() {
   const startbutton = document.querySelector(".start-btn");
@@ -68,21 +64,9 @@ function round() {
   const clickedElement = event.target;
   if ((clickedElement.classList.contains("p1-houses")) || (clickedElement.classList.contains("p2-houses"))) {
     var startIndex = parseInt(clickedElement.id);
-    //console.log(startIndex);
   }
   selectHouse(false, currentPlayer);
   currentPlayer = distributionLoop(currentPlayer, startIndex);
-  /*
-  var endStatus = distribute(currentPlayer, startIndex);
-  //console.log(endStatus);
-  if (endTurn(endStatus, currentPlayer)) {
-  const endIndex = endStatus[1];
-  // take away all marbles in opposite house if last marble stop at one of own houses that is empty
-  if (houses[endIndex] === 1) {absorbMarble(endIndex, currentPlayer);}
-  // switch player
-  currentPlayer = (currentPlayer === 1) ? 2 : 1;
-  }
-  */
   if (checkEmptyHouses(currentPlayer)) {
     currentPlayer = (currentPlayer === 1) ? 2 : 1;
   }
@@ -94,7 +78,6 @@ function round() {
 function selectHouse(enable, player) {
   var target_houses = (player === 1) ? ".p1-houses" : ".p2-houses";
   const enable_houses = document.querySelectorAll(target_houses);
-  //const p2_houses = document.querySelectorAll(".p2-houses");
   if (enable) {
     for (var i = 0; i < enable_houses.length; i++) {
       enable_houses[i].onclick = (enable_houses[i].innerText !== "0") ? round : "null";
@@ -109,7 +92,6 @@ function selectHouse(enable, player) {
 function distributionLoop(player, startIndex) {
   console.log(houses, startIndex);
   var endStatus = distribute(player, startIndex)
-  //console.log(endStatus);
   const endIndex = endStatus[1];
   console.log(endTurn(endStatus, player));
   if (endTurn(endStatus, player)) {
@@ -119,7 +101,6 @@ function distributionLoop(player, startIndex) {
     // switch player
     return (player === 1) ? 2 : 1;
   } else if (!endStatus[0]) {
-    console.log("repeat:", player);
     return distributionLoop(player, endIndex);
   } else {
     return player;
@@ -129,13 +110,10 @@ function distributionLoop(player, startIndex) {
 // distribute every marbles in current house one by one into consequence houses
 // add 1 marble into own storage if pass through
 function distribute(player, currentIndex) {
-  //console.log(currentPlayer, currentIndex);
   var marblesInHand = houses[currentIndex];
   var stop_at_storage = false;
-  //console.log(marblesInHand);
   houses[currentIndex] = 0;
   for (var i=0; i<marblesInHand; i++) {
-    //console.log(i);
     currentIndex = (currentIndex+1)%14;
     switch (player) {
       case 1:
@@ -166,18 +144,6 @@ function distribute(player, currentIndex) {
 // return true when currentPlayer's turn ends
 // condition: when the last marble doesn not stop at in storage
 function endTurn(endStatus, player) {
-  /*
-  var playerhouseEmpty = false;
-  switch (player) {
-  case 1:
-  playerhouseEmpty = (sum_array(houses.slice(0, 6)) === 0) ? true : false;
-  break;
-  case 2:
-  playerhouseEmpty = (sum_array(houses.slice(7, 13)) === 0) ? true : false;
-  break;
-  }
-  return (playerhouseEmpty || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
-  */
   return (checkEmptyHouses(player) || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
 }
 

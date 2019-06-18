@@ -83,6 +83,9 @@ function round() {
   currentPlayer = (currentPlayer === 1) ? 2 : 1;
   }
   */
+  if (checkEmptyHouses(currentPlayer)) {
+    currentPlayer = (currentPlayer === 1) ? 2 : 1;
+  }
   game(currentPlayer);
 }
 
@@ -163,16 +166,33 @@ function distribute(player, currentIndex) {
 // return true when currentPlayer's turn ends
 // condition: when the last marble doesn not stop at in storage
 function endTurn(endStatus, player) {
+  /*
+  var playerhouseEmpty = false;
+  switch (player) {
+  case 1:
+  playerhouseEmpty = (sum_array(houses.slice(0, 6)) === 0) ? true : false;
+  break;
+  case 2:
+  playerhouseEmpty = (sum_array(houses.slice(7, 13)) === 0) ? true : false;
+  break;
+  }
+  return (playerhouseEmpty || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
+  */
+  return (checkEmptyHouses(player) || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
+}
+
+// return true if player has empty houses
+function checkEmptyHouses(player) {
   var playerhouseEmpty = false;
   switch (player) {
     case 1:
-      playerhouseEmpty = (sum_array(houses.slice(0, 6)) === 0) ? true : false;
+      playerhouseEmpty = (sum_array(houses.slice(0, 7)) === 0) ? true : false;
       break;
     case 2:
-      playerhouseEmpty = (sum_array(houses.slice(7, 13)) === 0) ? true : false;
+      playerhouseEmpty = (sum_array(houses.slice(7, 14)) === 0) ? true : false;
       break;
   }
-  return (playerhouseEmpty || ((!endStatus[0]) && (houses[endStatus[1]] === 1)));
+  return playerhouseEmpty
 }
 
 function absorbMarble(endIndex, player) {

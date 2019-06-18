@@ -77,13 +77,18 @@ function round() {
 // by changing the value of elements' onclick attribute
 function selectHouse(enable, player) {
   var target_houses = (player === 1) ? ".p1-houses" : ".p2-houses";
+  const hoverEffect = "white-border-hvr";
   const enable_houses = document.querySelectorAll(target_houses);
   if (enable) {
     for (var i = 0; i < enable_houses.length; i++) {
       enable_houses[i].onclick = (enable_houses[i].innerText !== "0") ? round : "null";
+      enable_houses[i].classList.toggle(hoverEffect, (enable_houses[i].innerText !== "0"));
     }
   } else {
-    for (var i = 0; i < enable_houses.length; i++) {enable_houses[i].onclick = "null";}
+    for (var i = 0; i < enable_houses.length; i++) {
+      enable_houses[i].onclick = "null";
+      enable_houses[i].classList.remove(hoverEffect);
+    }
   }
 }
 

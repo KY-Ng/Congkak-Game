@@ -21,7 +21,7 @@ Then I found this YouTube video: [Web Development Tutorial - JavaScript, HTML, C
   (with the board and marbles, players will be moving the marbles one at a time)
   - similar to the marble's case, I will try to animate the movement so that it's easier to understand and more entertaining (I hope).
 
-## Feel like Trying?
+## Feel like Trying? (**Desktop Only** ಥ_ಥ)
 1. Download this repository with this [link](https://minhaskamal.github.io/DownGit/#/home?url=https://github.com/KY-Ng/Congkak-Game) (A zip folder).
 2. Unzip the downloaded folder.
 3. Open *congakak-game.html* with any browser and have fun!

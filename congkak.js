@@ -51,6 +51,7 @@ function game(player) {
     } else {
       msg += "\nIt's a draw!";
     }
+    msg += "\nRefresh the page to play again (●'◡'●)."
     updateGameMessage(msg);
     selectHouse(false, player);
   } else {
